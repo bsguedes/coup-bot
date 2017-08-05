@@ -16,12 +16,14 @@ class RandomBot:
         self.id = name
         self.cards = cards
         self.coins = coins
+        self.opponents = {}
         for player in players:
             if player != self.id:
                 self.opponents[player] = {'coins': 2}
-        print(self.cards)
-        print(self.coins)
-        print(self.opponents)
+        print('new game!')
+        print('I have ' + str(self.cards))
+        print('I have ' + str(self.coins) + ' coins')
+        print('My opponents are ' + str(self.opponents))
 
     def play(self, must_coup):
         sorted(self.opponents.items(), key=lambda x: x[1]['coins'], reverse=True)
@@ -36,9 +38,9 @@ class RandomBot:
                 return {'action': ASSASSIN, 'target': list(self.opponents.keys()[0])}
             elif randint(0, 3) == 1:
                 return {'action': FOREIGN_AID, 'target': None}
-            elif randint(0, 5) == 1:
+            elif randint(0, 5) == 10:
                 return {'action': EXCHANGE, 'target': None}
-            elif randint(0, 4) == 1:
+            elif randint(0, 4) == 10:
                 return {'action': INVESTIGATE, 'target': list(self.opponents.keys())[0]}
             else:
                 return {'action': INCOME, 'target': None}
@@ -58,13 +60,14 @@ class RandomBot:
         return {'attempt_block': False, 'card': None}
 
     def challenge(self, action, player, card):
-        if (card == DUKE and randint(0, 1) == 0):
+        if (card == DUKE and randint(0, 100) == 0):
             return {'challenges': True}
         else:
             return {'challenges': False}
 
     def lose_influence(self):
         card = self.cards[0]
+        print('damn, lost cards, i have ' + str(self.cards) + ' and I will lose ' + card)
         self.cards.remove(card)
         return {'card': card}
 

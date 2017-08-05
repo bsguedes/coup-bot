@@ -53,6 +53,7 @@ def tries_to_block(request):
     action = request.META['HTTP_ACTION']
     player = request.META['HTTP_PLAYER']
     response = bot_player.tries_to_block(action, player)
+    print(response)
     return HttpResponse(__encode_data(response))
 
 '''
@@ -67,6 +68,7 @@ def challenge(request):
     player = request.META['HTTP_PLAYER']
     card = request.META['HTTP_CARD']
     response = bot_player.challenge(action, player, card)
+    print(response)
     return HttpResponse(__encode_data(response))
 
 '''
@@ -75,6 +77,7 @@ def challenge(request):
 
 def lose_influence(request):
     response = bot_player.lose_influence()
+    print(response)
     return HttpResponse(__encode_data(response))
 
 '''
@@ -96,6 +99,7 @@ def inquisitor(request, action):
         response = bot_player.choose_card_to_return(card)
     else:
         raise Http404
+    print(response)
     return HttpResponse(__encode_data(response))
 
 '''
