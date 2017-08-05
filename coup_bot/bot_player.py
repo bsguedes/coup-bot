@@ -1,4 +1,4 @@
-from constants import *
+from coup_bot.constants import *
 from random import randint
 
 
@@ -15,10 +15,10 @@ class RandomBot:
         self.cards = cards
         self.coins = coins
         for player in players:
-            self.opponents[player] = {'coins': 2}
-        print self.cards
-        print self.coins
-        print self.opponents
+            self.opponents[player] = { 'coins': 2 }
+        print(self.cards)
+        print(self.coins)
+        print(self.opponents)
 
     def play(self, must_coup):
         sorted(self.opponents.items(), key=lambda x: x[1]['coins'], reverse=True)

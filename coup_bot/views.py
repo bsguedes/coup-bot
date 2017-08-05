@@ -1,9 +1,9 @@
 from django.http import HttpResponse, Http404
-from bot_player import RandomBot
+from coup_bot.bot_player import RandomBot
+import json
+
 
 bot_player = RandomBot()
-
-import json
 
 
 def __decode_data(request):
@@ -21,6 +21,8 @@ def __encode_data(response):
     coins: integer,
     players: list
 '''
+
+
 def start(request):
     data = __decode_data(request)
     cards = data['cards']
@@ -32,9 +34,10 @@ def start(request):
 '''
     must_coup: bool
 '''
+
+
 def play(request):
-    data = __decode_data(request)
-    must_coup = data['must_coup']
+    must_coup = request.headers['Must-Coup']
     response = bot_player.play(must_coup)
     return HttpResponse(__encode_data(response))
 
@@ -42,10 +45,11 @@ def play(request):
     action: int
     player: string
 '''
+
+
 def tries_to_block(request):
-    data = __decode_data(request)
-    action = data['action']
-    player = data['opponent']
+    action = request.headers['Action']
+    player = request.headers['Player']
     response = bot_player.tries_to_block(action, player)
     return HttpResponse(__encode_data(response))
 
@@ -54,16 +58,19 @@ def tries_to_block(request):
     player: string
     card: string
 '''
+
+
 def challenge(request):
-    data = __decode_data(request)
-    action = data['action']
-    player = data['opponent']
-    card = data['card']
+    action = request.headers['Action']
+    player = request.headers['Player']
+    card = request.headers['Card']
     response = bot_player.challenge(action, player, card)
     return HttpResponse(__encode_data(response))
 
 '''
 '''
+
+
 def lose_influence(request):
     bot_player.lose_influence()
     return HttpResponse()
@@ -72,17 +79,18 @@ def lose_influence(request):
     player: string
     card: string
 '''
+
+
 def inquisitor(request, action):
-    data = __decode_data(request)
     if action == 'give_card_to_inquisitor':
-        player = data['player']
+        player = request.headers['Player']
         response = bot_player.give_card_to_inquisitor(player)
-    elif action =='show_card_to_inquisitor':
-        player = data['player']
-        card = data['card']
+    elif action == 'show_card_to_inquisitor':
+        player = request.headers['Player']
+        card = request.headers['Card']
         response = bot_player.show_card_to_inquisitor(player, card)
     elif action == 'choose_card_to_return':
-        card = data['card']
+        card = request.headers['Card']
         response = bot_player.choose_card_to_return(card)
     else:
         raise Http404
@@ -97,6 +105,8 @@ def inquisitor(request, action):
     challenged: int,
     card: string
 '''
+
+
 def status(request, action):
     data = __decode_data(request)
     if action == 'status':
