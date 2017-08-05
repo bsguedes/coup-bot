@@ -27,8 +27,9 @@ def start(request):
     data = __decode_data(request)
     cards = data['cards']
     coins = data['coins']
+    you = data['you']
     players = data['players']
-    bot_player.start(cards, coins, players)
+    bot_player.start(you, cards, coins, players)
     return HttpResponse()
 
 '''
@@ -39,6 +40,7 @@ def start(request):
 def play(request):
     must_coup = request.META['HTTP_MUST_COUP'] == 'true'
     response = bot_player.play(must_coup)
+    print(response)
     return HttpResponse(__encode_data(response))
 
 '''
@@ -72,8 +74,8 @@ def challenge(request):
 
 
 def lose_influence(request):
-    bot_player.lose_influence()
-    return HttpResponse()
+    response = bot_player.lose_influence()
+    return HttpResponse(__encode_data(response))
 
 '''
     player: string

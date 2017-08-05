@@ -7,15 +7,18 @@ class RandomBot:
     cards = []
     coins = 0
     opponents = {}
+    id = ''
 
     def __init__(self):
         pass
 
-    def start(self, cards, coins, players):
+    def start(self, name, cards, coins, players):
+        self.id = name
         self.cards = cards
         self.coins = coins
         for player in players:
-            self.opponents[player] = {'coins': 2}
+            if player != self.id:
+                self.opponents[player] = {'coins': 2}
         print(self.cards)
         print(self.coins)
         print(self.opponents)
@@ -23,7 +26,7 @@ class RandomBot:
     def play(self, must_coup):
         sorted(self.opponents.items(), key=lambda x: x[1]['coins'], reverse=True)
         if must_coup or (self.coins >= 7 and randint(0, 2) == 1):
-            return {'action': COUP, 'target': self.opponents.keys()[0]}
+            return {'action': COUP, 'target': list(self.opponents.keys())[0]}
         else:
             if DUKE in self.cards:
                 return {'action': COLLECT_TAXES}
@@ -61,7 +64,9 @@ class RandomBot:
             return {'challenges': False}
 
     def lose_influence(self):
-        return {'card': self.cards[0]}
+        card = self.cards[0]
+        self.cards.remove(card)
+        return {'card': card}
 
     def give_card_to_inquisitor(self, player):
         return {'card': self.cards[0]}
