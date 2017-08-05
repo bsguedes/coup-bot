@@ -37,7 +37,7 @@ def start(request):
 
 
 def play(request):
-    must_coup = request.headers['Must-Coup']
+    must_coup = request.META['HTTP_MUST_COUP'] == 'true'
     response = bot_player.play(must_coup)
     return HttpResponse(__encode_data(response))
 
@@ -48,8 +48,8 @@ def play(request):
 
 
 def tries_to_block(request):
-    action = request.headers['Action']
-    player = request.headers['Player']
+    action = request.META['HTTP_ACTION']
+    player = request.META['HTTP_PLAYER']
     response = bot_player.tries_to_block(action, player)
     return HttpResponse(__encode_data(response))
 
@@ -61,9 +61,9 @@ def tries_to_block(request):
 
 
 def challenge(request):
-    action = request.headers['Action']
-    player = request.headers['Player']
-    card = request.headers['Card']
+    action = request.META['HTTP_ACTION']
+    player = request.META['HTTP_PLAYER']
+    card = request.META['HTTP_CARD']
     response = bot_player.challenge(action, player, card)
     return HttpResponse(__encode_data(response))
 
@@ -83,14 +83,14 @@ def lose_influence(request):
 
 def inquisitor(request, action):
     if action == 'give_card_to_inquisitor':
-        player = request.headers['Player']
+        player = request.META['HTTP_PLAYER']
         response = bot_player.give_card_to_inquisitor(player)
     elif action == 'show_card_to_inquisitor':
-        player = request.headers['Player']
-        card = request.headers['Card']
+        player = request.META['HTTP_PLAYER']
+        card = request.META['HTTP_CARD']
         response = bot_player.show_card_to_inquisitor(player, card)
     elif action == 'choose_card_to_return':
-        card = request.headers['Card']
+        card = request.META['HTTP_CARD']
         response = bot_player.choose_card_to_return(card)
     else:
         raise Http404

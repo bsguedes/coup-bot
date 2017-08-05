@@ -15,7 +15,7 @@ class RandomBot:
         self.cards = cards
         self.coins = coins
         for player in players:
-            self.opponents[player] = { 'coins': 2 }
+            self.opponents[player] = {'coins': 2}
         print(self.cards)
         print(self.coins)
         print(self.opponents)
@@ -28,15 +28,15 @@ class RandomBot:
             if DUKE in self.cards:
                 return {'action': COLLECT_TAXES}
             elif CAPTAIN in self.cards and randint(0, 3) > 2:
-                return {'action': EXTORTION, 'target': self.opponents.keys()[0]}
+                return {'action': EXTORTION, 'target': list(self.opponents.keys())[0]}
             elif ASSASSIN in self.cards and self.coins >= 3:
-                return {'action': ASSASSIN, 'target': self.opponents.keys()[0]}
+                return {'action': ASSASSIN, 'target': list(self.opponents.keys()[0])}
             elif randint(0, 3) == 1:
                 return {'action': FOREIGN_AID, 'target': None}
             elif randint(0, 5) == 1:
                 return {'action': EXCHANGE, 'target': None}
             elif randint(0, 4) == 1:
-                return {'action': INVESTIGATE, 'target': self.opponents.keys()[0]}
+                return {'action': INVESTIGATE, 'target': list(self.opponents.keys())[0]}
             else:
                 return {'action': INCOME, 'target': None}
 
