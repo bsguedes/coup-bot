@@ -108,5 +108,5 @@ class RandomBot:
     def signal_challenge(self, challenger, challenged, card):
         pass
 
-    def signal_action(self, player, action, player_targetted):
+    def signal_action(self, player, action, player_targeted):
         pass

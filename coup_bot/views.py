@@ -157,8 +157,8 @@ def status(request, action):
     elif action == 'action':
         player = data['opponent']
         action = data['action']
-        player_targetted = data['player_targetted']
-        bot_player.signal_action(player, action, player_targetted)
+        player_targeted = data['player_targeted']
+        bot_player.signal_action(player, action, player_targeted)
     else:
         raise Http404
     return HttpResponse()
