@@ -26,6 +26,7 @@ class RandomBot:
         print('My opponents are ' + str(self.opponents))
 
     def play(self, must_coup):
+        print('I have ' + str(self.cards))
         sorted(self.opponents.items(), key=lambda x: x[1]['coins'], reverse=True)
         if must_coup or (self.coins >= 7 and randint(0, 2) == 1):
             return {'action': COUP, 'target': list(self.opponents.keys())[0]}
@@ -38,9 +39,9 @@ class RandomBot:
                 return {'action': ASSASSIN, 'target': list(self.opponents.keys()[0])}
             elif randint(0, 3) == 1:
                 return {'action': FOREIGN_AID, 'target': None}
-            elif randint(0, 5) == 10:
+            elif randint(0, 5) == 1:
                 return {'action': EXCHANGE, 'target': None}
-            elif randint(0, 4) == 10:
+            elif randint(0, 4) == 1:
                 return {'action': INVESTIGATE, 'target': list(self.opponents.keys())[0]}
             else:
                 return {'action': INCOME, 'target': None}
@@ -60,7 +61,7 @@ class RandomBot:
         return {'attempt_block': False, 'card': None}
 
     def challenge(self, action, player, card):
-        if (card == DUKE and randint(0, 100) == 0):
+        if card == DUKE and randint(0, 10) == 0:
             return {'challenges': True}
         else:
             return {'challenges': False}
@@ -72,13 +73,21 @@ class RandomBot:
         return {'card': card}
 
     def give_card_to_inquisitor(self, player):
-        return {'card': self.cards[0]}
+        card = self.cards[0]
+        self.cards.remove(card)
+        return {'card': card}
 
     def show_card_to_inquisitor(self, player, card):
         return {'change_card': True}
 
     def choose_card_to_return(self, card):
-        return {'card': self.cards[0]}
+        self.cards.append(card)
+        card_to_return_to_deck = self.cards[0]
+        self.cards.remove(card_to_return_to_deck)
+        return {'card': card_to_return_to_deck}
+
+    def card_returned_from_investigation(self, player, same_card, card):
+        self.cards.append(card)
 
     def signal_status(self, players):
         self.opponents = players

@@ -97,6 +97,12 @@ def inquisitor(request, action):
     elif action == 'choose_card_to_return':
         card = request.META['HTTP_CARD']
         response = bot_player.choose_card_to_return(card)
+    elif action == 'card_returned_from_investigation':
+        data = __decode_data(request)
+        player = data['player']
+        same_card = data['same_card']
+        card = data['card']
+        response = bot_player.card_returned_from_investigation(player, same_card, card)
     else:
         raise Http404
     print(response)
