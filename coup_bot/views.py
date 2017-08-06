@@ -44,6 +44,18 @@ def play(request):
     return HttpResponse(__encode_data(response))
 
 '''
+    card: string    
+'''
+
+
+def new_card(request):
+    data = __decode_data(request)
+    old_card = data['old_card']
+    new_card = data['new_card']
+    bot_player.new_card(old_card, new_card)
+    return HttpResponse()
+
+'''
     action: int
     player: string
 '''

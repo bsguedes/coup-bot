@@ -46,6 +46,10 @@ class RandomBot:
             else:
                 return {'action': INCOME, 'target': None}
 
+    def new_card(self, old_card, new_card):
+        self.cards.append(new_card)
+        self.cards.remove(old_card)
+
     def tries_to_block(self, action, player):
         if action == EXTORTION:
             if CAPTAIN in self.cards:

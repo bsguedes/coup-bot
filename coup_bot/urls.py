@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^play/$', views.play),
     url(r'^tries_to_block/$', views.tries_to_block),
     url(r'^challenge/$', views.challenge),
+    url(r'^new_card_from_challenge/$', views.new_card),
     url(r'^lose_influence/$', views.lose_influence),
     url(r'^inquisitor/(?P<action>.*)/$', views.inquisitor),
     url(r'^status/(?P<action>.*)$', views.status),
